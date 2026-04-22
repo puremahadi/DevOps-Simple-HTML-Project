@@ -25,17 +25,17 @@ jobs:
         with:
           context: .
           push: true
-          tags: puremahadi/devops-simple-html:${{ github.sha }}
+          tags: puremahadi/devops-simple-html:version${{ github.run_number }}
 
       - name: Update Kubernetes resources
         run: |
           # আপনার ফাইলের নাম k8s-deployment.yaml অনুযায়ী sed আপডেট করা হয়েছে
-          sed -i "s|image: puremahadi/devops-simple-html:.*|image: puremahadi/devops-simple-html:${{ github.sha }}|g" k8s-deployment.yaml
+          sed -i "s|image: puremahadi/devops-simple-html:.*|image: puremahadi/devops-simple-html:version${{ github.run_number }}|g" k8s-deployment.yaml
           
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
           git add k8s-deployment.yaml
-          git commit -m "Update image tag to ${{ github.sha }}"
+          git commit -m "Update image tag to version${{ github.run_number }}"
           git push
 
       - name: Image digest
